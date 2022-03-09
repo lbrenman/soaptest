@@ -60,9 +60,7 @@
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.value",
-					"metaName": "Body",
-					"metaDescription": "The response payload"
+					"value": "$.jsonData[\"soap:Envelope\"][\"soap:Body\"][\"m:CapitalCityResponse\"][\"m:CapitalCityResult\"]"
 				}
 			],
 			"outputs": {
@@ -213,7 +211,7 @@
 				"next": {
 					"context": "$.jsonData",
 					"routes": [
-						"json.1"
+						"response.success"
 					],
 					"metaName": "Next"
 				},
@@ -226,68 +224,6 @@
 				}
 			},
 			"metaMethod": "XML to JSON"
-		},
-		"json.1": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-json/json",
-			"name": "Stringify",
-			"method": "stringify",
-			"parameters": [
-				{
-					"name": "value",
-					"type": "jsonpath",
-					"value": "$.jsonData[\"soap:Envelope\"][\"soap:Body\"][\"m:CapitalCityResponse\"][\"m:CapitalCityResult\"]",
-					"metaName": "Value",
-					"metaDescription": "The value to convert to a JSON string."
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"json.2"
-					],
-					"context": "$.json",
-					"metaName": "Next"
-				},
-				"error": {
-					"routes": [
-						"response.error"
-					],
-					"context": "$.error",
-					"metaName": "Error"
-				}
-			},
-			"metaMethod": "Stringify"
-		},
-		"json.2": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-json/json",
-			"name": "Parse",
-			"method": "parse",
-			"parameters": [
-				{
-					"name": "json",
-					"type": "jsonpath",
-					"value": "$.json",
-					"metaName": "JSON",
-					"metaDescription": "The JSON string to parse."
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"response.success"
-					],
-					"context": "$.value",
-					"metaName": "Next"
-				},
-				"error": {
-					"routes": [
-						"response.error"
-					],
-					"context": "$.error",
-					"metaName": "Error"
-				}
-			},
-			"metaMethod": "Parse"
 		}
 	}
 }
